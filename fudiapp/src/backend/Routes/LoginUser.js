@@ -3,6 +3,10 @@ const router = express.Router()
 const User = require('../models/User')
 const { body, validationResult } = require('express-validator')
 
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs")
+const jwtSecret = "12345678901234567890123456789012"
+
 router.post(
     "/loginUser",
 
@@ -27,13 +31,25 @@ router.post(
                     return res.status(400).json( {errors: "Email can not be found !"} );
                 }
 
+                // Instead of directly checking if req.body.password !== userData.password
+                // Since, now we store crypted password, we compare the password submitted during login
+                // with saved crypted password like this.
+
+                const pwdCompare = await bcrypt.compare(req.body.password, userData.password)
+
                 // Unexisting Password
-                if(req.body.password !== userData.password){
+                if(!pwdCompare){
                     return res.status(400).json( {errors: "Wrong Password !"} )
                 }
 
+                const data = {
+                    user: {
+                        id: userData.id
+                    }
+                }
 
-                return res.json({success: true})
+                const authToken = jwt.sign(data, jwtSecret)
+                return res.json({success: true, authToken: authToken})
             } catch (error){
                 console.log(error)
                 res.json({success: false});

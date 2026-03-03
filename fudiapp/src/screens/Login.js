@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
+
 export default function Login() {
 
   const [credentials, setcredentials] = useState({ email: "", password: "" });
@@ -30,7 +31,9 @@ export default function Login() {
       alert("Enter Valid Credentials")
     }
     else{
-      navigate("/")
+      localStorage.setItem("authToken", json.authToken);
+      console.log(localStorage.getItem("authToken"));
+      navigate("/");
     }
   }
 
