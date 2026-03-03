@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
   const [credentials, setcredentials] = useState({ email: "", password: "" });
+  let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,6 +28,9 @@ export default function Login() {
 
     if (!json.success) {
       alert("Enter Valid Credentials")
+    }
+    else{
+      navigate("/")
     }
   }
 
