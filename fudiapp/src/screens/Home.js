@@ -49,7 +49,7 @@ export default function Home() {
                                         <div key={filteredFoodItem._id} className='col-12 col-md-6 col-lg-3'>
                                             <Card 
                                             foodName = {filteredFoodItem.name}
-                                            options = {filteredFoodItem.options}
+                                            options = {filteredFoodItem.options[0]}
                                             imgSrc = {filteredFoodItem.img}
                                             />
                                         </div>
