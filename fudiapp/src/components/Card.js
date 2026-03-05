@@ -5,12 +5,12 @@ export default function Card(props) {
     let optionsCatArr = Object.keys(options);
   return (
     <div>
-        <div className="card mt-3" style={{"width" : "18rem", "maxHeight" : "360px"}}>
-            <img src={props.imgSrc} className="card-img-top" alt="..."/>
-                <div className="card-body">
+        <div className="card mt-3 h-100">
+            <img src={props.imgSrc} className="card-img-top" alt="..." style={{ height: "160px", objectFit: "cover" }}/>
+                <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{props.foodName}</h5>
                     <p className="card-text">Filled with Cheese, Tomato, Onion, Corn and Capsicum</p>
-                    <div className="container w-100">
+                    <div className="container w-100 mt-auto">
                         <select className="m-2 h-100 bg-success rounded">
                             { // JS is written in curly brackets
                                 Array.from(
