@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+// For Add To Cart Functionality
+import Badge from 'react-bootstrap/Badge';
+import Modal from '../Modal';
+import Cart from '../screens/Cart';
+
+import { useCart } from './ContextReducer';
 
 export default function Navbar() {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("authToken");
         // navigate("/");
     }
+
+    const [cartView, setCartView] = useState(false);
+
+    let data = useCart();
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-success">
@@ -39,7 +51,18 @@ export default function Navbar() {
                         :   
                             <div className='d-flex'>
                                 <div>
-                                    <Link className="btn bg-white text-success mx-1" to="/">Cart</Link>
+                                    <div className="btn bg-white text-success mx-1" onClick={ () => {setCartView(true)} }>
+                                        Cart {" "}
+                                        <Badge pill bg="danger"> {data.length} </Badge>
+                                    </div>
+                                    { cartView 
+                                    ? 
+                                    <Modal onClose={ () => setCartView(false) }>
+                                        <Cart />
+                                    </Modal> 
+                                    : 
+                                    null 
+                                    }
                                 </div>
                                 <div>
                                     <Link className="btn bg-white text-danger mx-1" to="/login" onClick={handleLogout}>Logout</Link>

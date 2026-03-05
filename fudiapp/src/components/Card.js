@@ -9,10 +9,31 @@ export default function Card(props) {
 
     let dispatch = useDispatchCart();
     let data = useCart()
+    
     const handleAddToCart = async () => {
-        await dispatch({type: "ADD", id: props.item._id, name: props.item.name, price: finalPrice, qty: qty, size: size})
-        console.log(data)
-    }
+        const food = data.find(
+            item => item.id === props.item._id && item.size === size
+        );
+
+        if(food){
+            dispatch({
+                type: "UPDATE",
+                id: props.item._id,
+                size: size,
+                qty: qty,
+                price: finalPrice
+            });
+        } else {
+            dispatch({
+                type: "ADD",
+                id: props.item._id,
+                name: props.item.name,
+                qty: qty,
+                size: size,
+                price: finalPrice
+            });
+        }
+    };
     
     // For Default Value
     const sizeRef = useRef();
@@ -30,7 +51,7 @@ export default function Card(props) {
                     <h5 className="card-title">{props.item.name}</h5>
                     <p className="card-text">{props.desc}</p>
                     <div className="container w-100 mt-auto">
-                        <select className="m-2 h-100 bg-success rounded" onChange={(event) => setQty(event.target.value)}>
+                        <select className="m-2 h-100 bg-success rounded" onChange={(event) => setQty(parseInt(event.target.value))}>
                             { // JS is written in curly brackets
                                 Array.from(
                                     Array(6), (e, i) => {
